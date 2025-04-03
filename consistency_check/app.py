@@ -46,23 +46,23 @@ def run_consistency_checks():
     analyzer_stats = httpx.get(f'{app_config["analyzer"]["url"]}/stats').json()
     storage_counts = httpx.get(f'{app_config["storage"]["url"]}/counts').json()
 
-    analyzer_air_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/air').json()
-    analyzer_traffic_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/traffic').json()
+    analyzer_clientcase_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/air').json()
+    analyzer_survey_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/traffic').json()
 
-    storage_air_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/air').json()
-    storage_traffic_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/traffic').json()
+    storage_clientcase_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/air').json()
+    storage_survey_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/traffic').json()
 
     # Tag type with each entry
     analyzer_ids = [
-        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "air"} for e in analyzer_air_ids
+        {"trace_id": e["trace_id"], "event_id": e["case_id"], "type": "clientcase"} for e in analyzer_clientcase_ids
     ] + [
-        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "traffic"} for e in analyzer_traffic_ids
+        {"trace_id": e["trace_id"], "event_id": e["survey_id"], "type": "survey"} for e in analyzer_survey_ids
     ]
 
     storage_ids = [
-        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "air"} for e in storage_air_ids
+        {"trace_id": e["trace_id"], "event_id": e["case_id"], "type": "clientcase"} for e in storage_clientcase_ids
     ] + [
-        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "traffic"} for e in storage_traffic_ids
+        {"trace_id": e["trace_id"], "event_id": e["survey_id"], "type": "survey"} for e in storage_survey_ids
     ]
 
     # Use sets of tuples with type included
