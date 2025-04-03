@@ -19,6 +19,7 @@ import requests
 import time
 from datetime import datetime
 import pytz
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 with open("./config/log_conf.yml", "r") as f:
@@ -107,6 +108,10 @@ def get_checks():
 
 
 
+def init_scheduler():
+    sched = BackgroundScheduler(daemon=True)
+    sched.add_job(run_consistency_checks, 'interval', seconds=app_config['scheduler']['interval'])
+    sched.start()
 
 
 app = connexion.FlaskApp(__name__, specification_dir='')

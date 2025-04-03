@@ -17,7 +17,7 @@
             <h1>Dashboard</h1>
             <img src="https://www.marketing91.com/wp-content/uploads/2016/08/images.jpg" width="60" height="60" alt="Logo" id="logo" />
         </div>
-        <h5 id="last-updated">Last update: <span id="last-updated-value">N/A</span></h5>
+        <!-- <h5 id="last-updated">Last update: <span id="last-updated-value">N/A</span></h5>
         <div id="messages"></div>
         <h2>Statistics</h2>
         <div id="statistics">
@@ -40,8 +40,39 @@
                 <code id="event-survey">
                 </code>
             </div>
+        </div> -->
+
+
+        <h2>Consistency Checks</h2>
+        <button id="run-checks-button">Run Consistency Check</button>
+        <h5>Last Check Run: <span id="last-updated-checks">N/A</span></h5>
+        
+        <div id="consistency-checks">
+            <div>
+                <h3>Database Counts</h3>
+                <code id="db-counts">Waiting for data...</code>
+            </div>
+            <div>
+                <h3>Queue Counts</h3>
+                <code id="queue-counts">Waiting for data...</code>
+            </div>
+            <div>
+                <h3>Processing Counts</h3>
+                <code id="processing-counts">Waiting for data...</code>
+            </div>
+            <div>
+                <h3>Missing in DB</h3>
+                <code id="missing-in-db">Waiting for data...</code>
+            </div>
+            <div>
+                <h3>Missing in Queue</h3>
+                <code id="missing-in-queue">Waiting for data...</code>
+            </div>
         </div>
+        
     </main>
 </body>
 
 </html>
+
+
