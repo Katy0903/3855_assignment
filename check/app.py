@@ -33,9 +33,9 @@ with open('./config/app_conf.yml', 'r') as f:
 
 
 # Configuration for external services
-processing_url = 'http://processing:8100/processing/ccc/stats'
-analyzer_url = 'http://analyzer:8110/analyzer/ccc/clientcase_ids'
-storage_url = 'http://storage:8090/storage/ccc/stats'
+processing_url = 'http://acit3855lab9.eastus.cloudapp.azure.com/processing/ccc/stats'
+analyzer_url = 'http://acit3855lab9.eastus.cloudapp.azure.com/analyzer/ccc/clientcase_ids'
+storage_url = 'http://acit3855lab9.eastus.cloudapp.azure.com/storage/ccc/stats'
 json_data_store_path = app_config['datastore']['filename']
 
 def get_event_counts(url):
