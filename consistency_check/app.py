@@ -43,7 +43,7 @@ def run_consistency_checks():
 
     processing_stats = httpx.get(f'{app_config["processing"]["url"]}/stats').json()
     analyzer_stats = httpx.get(f'{app_config["analyzer"]["url"]}/stats').json()
-    storage_counts = httpx.get(f'{app_config["storage"]["url"]}/counts').json()
+    storage_counts = httpx.get(f'{app_config["storage"]["url"]}/stats').json()
 
     analyzer_clientcase_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/clientcase').json()
     analyzer_survey_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/survey').json()
