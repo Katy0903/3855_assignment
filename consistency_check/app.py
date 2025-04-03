@@ -42,6 +42,7 @@ def run_consistency_checks():
     start_time = time.time()
 
     processing_stats = httpx.get(f'{app_config["processing"]["url"]}/stats').json()
+
     analyzer_stats = httpx.get(f'{app_config["analyzer"]["url"]}/stats').json()
     storage_counts = httpx.get(f'{app_config["storage"]["url"]}/stats').json()
 
