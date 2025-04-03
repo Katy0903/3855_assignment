@@ -17,7 +17,6 @@ from threading import Thread
 from flask import jsonify
 import requests
 import time
-from datetime import datetime
 import pytz
 from apscheduler.schedulers.background import BackgroundScheduler
 import httpx
@@ -77,7 +76,7 @@ def run_consistency_checks():
     ]
 
     output = {
-        "last_updated": datetime.now.strftime("%Y-%m-%d %H:%M:%S"),
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "counts": {
             "processing": processing_stats,
             "queue": analyzer_stats,
