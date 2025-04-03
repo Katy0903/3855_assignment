@@ -86,9 +86,14 @@ def run_consistency_checks():
         "missing_in_queue": missing_in_queue
     }
 
-    os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
-    with open(DATA_FILE, "w") as f:
-        json.dump(output, f, indent=4)
+
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "w") as f:
+            json.dump(output, f, indent=4)
+    else:
+        default_stats = {}
+        with open(DATA_FILE, 'w') as file:
+            json.dump(default_stats, file, indent=4)
 
     duration_ms = int((time.time() - start_time) * 1000)
     return {"processing_time_ms": duration_ms}, 200
