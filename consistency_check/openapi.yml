@@ -87,15 +87,15 @@ components:
             type: object
             properties:
               event_id:
-                type: integer
+                type: string
               trace_id:
-                type: integer
+                type: string
         missing_in_queue:
           type: array
           items:
             type: object
             properties:
               event_id:
-                type: integer
+                type: string
               trace_id:
-                type: integer
+                type: string
