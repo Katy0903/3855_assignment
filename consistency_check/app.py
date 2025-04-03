@@ -54,15 +54,15 @@ def run_consistency_checks():
 
     # Tag type with each entry
     analyzer_ids = [
-        {"trace_id": e["trace_id"], "event_id": e["case_id"], "type": "clientcase"} for e in analyzer_clientcase_ids
+        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "clientcase"} for e in analyzer_clientcase_ids
     ] + [
-        {"trace_id": e["trace_id"], "event_id": e["survey_id"], "type": "survey"} for e in analyzer_survey_ids
+        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "survey"} for e in analyzer_survey_ids
     ]
 
     storage_ids = [
-        {"trace_id": e["trace_id"], "event_id": e["case_id"], "type": "clientcase"} for e in storage_clientcase_ids
+        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "clientcase"} for e in storage_clientcase_ids
     ] + [
-        {"trace_id": e["trace_id"], "event_id": e["survey_id"], "type": "survey"} for e in storage_survey_ids
+        {"trace_id": e["trace_id"], "event_id": e["event_id"], "type": "survey"} for e in storage_survey_ids
     ]
 
     # Use sets of tuples with type included
