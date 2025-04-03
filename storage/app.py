@@ -16,6 +16,7 @@ from datetime import datetime as dt
 from pykafka import KafkaClient
 from pykafka.common import OffsetType
 from threading import Thread
+from flask import jsonify
 
 
 with open("./config/log_conf.yml", "r") as f:
@@ -206,9 +207,54 @@ def get_survey_by_timestamp(start_timestamp, end_timestamp):
         return []
 
 
+def get_event_counts():
+    session = make_session()
+    try:
+        # Count for ClientCase
+        client_case_count = session.query(ClientCase).count()
+
+        # Count for Survey
+        survey_count = session.query(Survey).count()
+
+        # Return counts in JSON format
+        return jsonify({
+            "count_clientcase": client_case_count,
+            "count_survey": survey_count
+        })
+
+    except Exception as e:
+        logger.error(f"Error retrieving counts: {e}")
+        return jsonify({"error": "Error retrieving counts"}), 500
+    finally:
+        session.close()
+
+def get_event_ids_and_trace_ids():
+    session = make_session()
+    try:
+        # Retrieve ClientCase IDs and Trace IDs
+        client_cases = session.query(ClientCase.event_id, ClientCase.trace_id).all()
+
+        # Retrieve Survey IDs and Trace IDs
+        surveys = session.query(Survey.survey_id, Survey.trace_id).all()
+
+        # Combine both lists
+        all_events = [{"event_id": case.event_id, "trace_id": case.trace_id, "type": "clientcase"} for case in client_cases]
+        all_events += [{"event_id": survey.survey_id, "trace_id": survey.trace_id, "type": "survey"} for survey in surveys]
+
+        return jsonify(all_events)
+
+    except Exception as e:
+        logger.error(f"Error retrieving event IDs and trace IDs: {e}")
+        return jsonify({"error": "Error retrieving event IDs and trace IDs"}), 500
+    finally:
+        session.close()
+
+
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", base_path="/storage", strict_validation=True, validate_responses=True)
 
+# app.app.add_url_rule('/ccc/stats', 'get_event_counts', get_event_counts, methods=['GET'])
+# app.add_url_rule('/ccc/stats/ids', 'get_event_ids_and_trace_ids', get_event_ids_and_trace_ids, methods=['GET'])
 
 
 if __name__ == "__main__":

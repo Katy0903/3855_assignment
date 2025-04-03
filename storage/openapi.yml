@@ -102,6 +102,47 @@ paths:
                 items:
                   $ref: '#/components/schemas/Survey'
     parameters: []
+  /ccc/stats:
+    get:
+      summary: Get the counts of each event type in the database
+      operationId: app.get_event_counts
+      responses:
+        '200':
+          description: Successfully returned event counts
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count_clientcase:
+                    type: integer
+                    description: Count of client case records
+                  count_survey:
+                    type: integer
+                    description: Count of survey records
+  /ccc/stats/ids:
+    get:
+      summary: Get event IDs and trace IDs from the database
+      operationId: app.get_event_ids_and_trace_ids
+      responses:
+        '200':
+          description: Successfully returned event IDs and trace IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    event_id:
+                      type: string
+                      description: Unique event ID
+                    trace_id:
+                      type: string
+                      description: Unique trace ID
+                    type:
+                      type: string
+                      description: Event type (clientcase or survey)
 components:
   schemas:
     ClientCase:

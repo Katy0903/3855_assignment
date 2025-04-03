@@ -6,8 +6,8 @@
   
     - name: Clone my repoo
       git:
-        repo: git@github.com:Katy0903/acit3855_lab9.git
-        dest: /home/katy/acit3855_lab9/demo
+        repo: git@github.com:Katy0903/3855_assignment.git
+        dest: /home/katy/acit3855_lab9/demo3
         version: main
         accept_hostkey: yes
         key_file: ~/.ssh/bcitkey
@@ -16,14 +16,14 @@
     - name: Copy all files from prod to test
       synchronize:
         src: ../config/prod/
-        dest: /home/katy/acit3855_lab9/demo/config/test/
+        dest: /home/katy/acit3855_lab9/demo3/config/test/
         mode: push 
         recursive: yes       
         
     # - name: Copy file 
     #   copy:
     #     src: ../config/prod/storage/app_conf.yml
-    #     dest: /home/katy/acit3855_lab9/demo/config/test/storage/app_conf.yml
+    #     dest: /home/katy/acit3855_lab9/demo3/config/test/storage/app_conf.yml
     #     owner: katy
     #     group: katy
     #     mode: '0644'
@@ -31,7 +31,7 @@
 
     - name: Run Docker Compose up -d --build
       ansible.builtin.shell: |
-        cd /home/katy/acit3855_lab9/demo
+        cd /home/katy/acit3855_lab9/demo3
         chown -R katy:katy ./data
         chown -R katy:katy ./logs
         docker compose up -d --build

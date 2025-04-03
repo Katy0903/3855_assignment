@@ -101,6 +101,73 @@ paths:
                 type: object
                 items:
                   $ref: '#/components/schemas/EventStats'
+  /ccc/clientcase_ids:
+    get:
+      summary: Get event IDs and trace IDs for clientcase events from Kafka history
+      operationId: app.get_clientcase_event_ids
+      description: Gets the event IDs and trace IDs for clientcase events from the Kafka queue
+      responses:
+        '200':
+          description: Successfully returned a list of clientcase event IDs and trace IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    event_id:
+                      type: integer
+                      description: The unique ID of the event
+                      example: 123456
+                    trace_id:
+                      type: string
+                      description: The trace ID of the event
+                      example: "456abcd789"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No clientcase events found!"
+
+  /ccc/survey_ids:
+    get:
+      summary: Get event IDs and trace IDs for survey events from Kafka history
+      operationId: app.get_survey_event_ids
+      description: Gets the event IDs and trace IDs for survey events from the Kafka queue
+      responses:
+        '200':
+          description: Successfully returned a list of survey event IDs and trace IDs
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    event_id:
+                      type: integer
+                      description: The unique ID of the event
+                      example: 789012
+                    trace_id:
+                      type: string
+                      description: The trace ID of the event
+                      example: "abc123xyz"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No survey events found!"
 
 components:
   schemas:

@@ -135,6 +135,24 @@ services:
     networks:
       - mynetwork
 
+  check:
+    build:
+      context: ./check
+      dockerfile: Dockerfile
+    environment:
+      CORS_ALLOW_ALL: "no"
+    # ports:
+    #   - "8111:8111" 
+    volumes:
+      - ./config/test/check:/app/config
+      - ./logs:/app/logs
+      - ./data/check:/app/data 
+    networks:
+      - mynetwork
+    depends_on:
+      - storage  
+
+
   nginx:
     build:
       context: ./dashboard
