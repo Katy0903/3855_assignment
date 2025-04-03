@@ -20,6 +20,7 @@ import time
 from datetime import datetime
 import pytz
 from apscheduler.schedulers.background import BackgroundScheduler
+import httpx
 
 
 with open("./config/log_conf.yml", "r") as f:
@@ -41,15 +42,15 @@ DATA_FILE = app_config['datastore']['filename']
 def run_consistency_checks():
     start_time = time.time()
 
-    processing_stats = httpx.get(f'{APP_CONF["processing"]["url"]}/stats').json()
-    analyzer_stats = httpx.get(f'{APP_CONF["analyzer"]["url"]}/stats').json()
-    storage_counts = httpx.get(f'{APP_CONF["storage"]["url"]}/counts').json()
+    processing_stats = httpx.get(f'{app_config["processing"]["url"]}/stats').json()
+    analyzer_stats = httpx.get(f'{app_config["analyzer"]["url"]}/stats').json()
+    storage_counts = httpx.get(f'{app_config["storage"]["url"]}/counts').json()
 
-    analyzer_air_ids = httpx.get(f'{APP_CONF["analyzer"]["url"]}/ids/air').json()
-    analyzer_traffic_ids = httpx.get(f'{APP_CONF["analyzer"]["url"]}/ids/traffic').json()
+    analyzer_air_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/air').json()
+    analyzer_traffic_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/traffic').json()
 
-    storage_air_ids = httpx.get(f'{APP_CONF["storage"]["url"]}/ids/air').json()
-    storage_traffic_ids = httpx.get(f'{APP_CONF["storage"]["url"]}/ids/traffic').json()
+    storage_air_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/air').json()
+    storage_traffic_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/traffic').json()
 
     # Tag type with each entry
     analyzer_ids = [
@@ -76,7 +77,7 @@ def run_consistency_checks():
     ]
 
     output = {
-        "last_updated": datetime.utcnow().isoformat() + "Z",
+        "last_updated": datetime.now.strftime("%Y-%m-%d %H:%M:%S"),
         "counts": {
             "processing": processing_stats,
             "queue": analyzer_stats,
