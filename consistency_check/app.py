@@ -46,11 +46,11 @@ def run_consistency_checks():
     analyzer_stats = httpx.get(f'{app_config["analyzer"]["url"]}/stats').json()
     storage_counts = httpx.get(f'{app_config["storage"]["url"]}/counts').json()
 
-    analyzer_clientcase_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/air').json()
-    analyzer_survey_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/traffic').json()
+    analyzer_clientcase_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/clientcase').json()
+    analyzer_survey_ids = httpx.get(f'{app_config["analyzer"]["url"]}/ids/survey').json()
 
-    storage_clientcase_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/air').json()
-    storage_survey_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/traffic').json()
+    storage_clientcase_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/clientcase').json()
+    storage_survey_ids = httpx.get(f'{app_config["storage"]["url"]}/ids/survey').json()
 
     # Tag type with each entry
     analyzer_ids = [
