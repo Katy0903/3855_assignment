@@ -11,121 +11,49 @@ const CONSISTENCY_CHECKS_API_URL = "http://acit3855lab9.eastus.cloudapp.azure.co
 
 
 
-// // This function fetches and updates the general statistics
-// const makeReq = (url, cb) => {
-//     fetch(url)
-//         .then(res => res.json())
-//         .then((result) => {
-//             console.log("Received data: ", result)
-//             cb(result);
-//         }).catch((error) => {
-//             updateErrorMessages(error.message)
-//         })
-// }
-
-// const updateCodeDiv = (result, elemId) => document.getElementById(elemId).innerText = JSON.stringify(result)
-
-// const getLocaleDateStr = () => (new Date()).toLocaleString()
-
-// const getStats = () => {
-//     document.getElementById("last-updated-value").innerText = getLocaleDateStr()
-    
-//     makeReq(PROCESSING_STATS_API_URL, (result) => updateCodeDiv(result, "processing-stats"))
-//     makeReq(ANALYZER_API_URL.stats, (result) => updateCodeDiv(result, "analyzer-stats"))
-//     makeReq(ANALYZER_API_URL.clientcase, (result) => updateCodeDiv(result, "event-clientcase"))
-//     makeReq(ANALYZER_API_URL.survey, (result) => updateCodeDiv(result, "event-survey"))
-// }
-
-// const updateErrorMessages = (message) => {
-//     const id = Date.now()
-//     console.log("Creation", id)
-//     msg = document.createElement("div")
-//     msg.id = `error-${id}`
-//     msg.innerHTML = `<p>Something happened at ${getLocaleDateStr()}!</p><code>${message}</code>`
-//     document.getElementById("messages").style.display = "block"
-//     document.getElementById("messages").prepend(msg)
-//     setTimeout(() => {
-//         const elem = document.getElementById(`error-${id}`)
-//         if (elem) { elem.remove() }
-//     }, 7000)
-// }
-
-// const setup = () => {
-//     getStats()
-//     setInterval(() => getStats(), 4000) // Update every 4 seconds
-// }
-
-// document.addEventListener('DOMContentLoaded', setup)
-
-// Helper function to make API requests
+// This function fetches and updates the general statistics
 const makeReq = (url, cb) => {
     fetch(url)
         .then(res => res.json())
         .then((result) => {
-            console.log("Received data: ", result);
+            console.log("Received data: ", result)
             cb(result);
+        }).catch((error) => {
+            updateErrorMessages(error.message)
         })
-        .catch((error) => {
-            updateErrorMessages(error.message);
-        });
-};
+}
 
-// Update stats UI
-const updateCodeDiv = (result, elemId) => {
-    document.getElementById(elemId).innerText = JSON.stringify(result, null, 2);
-};
+const updateCodeDiv = (result, elemId) => document.getElementById(elemId).innerText = JSON.stringify(result)
 
-// Get current time
-const getLocaleDateStr = () => (new Date()).toLocaleString();
+const getLocaleDateStr = () => (new Date()).toLocaleString()
 
-// Fetch and update statistics
 const getStats = () => {
-    document.getElementById("last-updated-value").innerText = getLocaleDateStr();
+    document.getElementById("last-updated-value").innerText = getLocaleDateStr()
+    
+    makeReq(PROCESSING_STATS_API_URL, (result) => updateCodeDiv(result, "processing-stats"))
+    makeReq(ANALYZER_API_URL.stats, (result) => updateCodeDiv(result, "analyzer-stats"))
+    makeReq(ANALYZER_API_URL.clientcase, (result) => updateCodeDiv(result, "event-clientcase"))
+    makeReq(ANALYZER_API_URL.survey, (result) => updateCodeDiv(result, "event-survey"))
+}
 
-    makeReq(PROCESSING_STATS_API_URL, (result) => updateCodeDiv(result, "processing-stats"));
-    makeReq(ANALYZER_API_URL.stats, (result) => updateCodeDiv(result, "analyzer-stats"));
-    makeReq(ANALYZER_API_URL.clientcase, (result) => updateCodeDiv(result, "event-clientcase"));
-    makeReq(ANALYZER_API_URL.survey, (result) => updateCodeDiv(result, "event-survey"));
-};
-
-// Fetch and update consistency checks
-const getConsistencyChecks = () => {
-    makeReq(CONSISTENCY_CHECKS_API_URL, (result) => {
-        document.getElementById("last-updated-checks").innerText = result.last_updated || "N/A";
-
-        document.getElementById("db-counts").innerText = JSON.stringify(result.counts?.db || {});
-        document.getElementById("queue-counts").innerText = JSON.stringify(result.counts?.queue || {});
-        document.getElementById("processing-counts").innerText = JSON.stringify(result.counts?.processing || {});
-
-        document.getElementById("missing-in-db").innerText = JSON.stringify(result.missing_in_db || []);
-        document.getElementById("missing-in-queue").innerText = JSON.stringify(result.missing_in_queue || []);
-    });
-};
-
-// Error handling for failed requests
 const updateErrorMessages = (message) => {
-    const id = Date.now();
-    console.log("Error occurred at", id);
-    let msg = document.createElement("div");
-    msg.id = `error-${id}`;
-    msg.innerHTML = `<p>Error at ${getLocaleDateStr()}:</p><code>${message}</code>`;
-    
-    document.getElementById("messages").style.display = "block";
-    document.getElementById("messages").prepend(msg);
-    
+    const id = Date.now()
+    console.log("Creation", id)
+    msg = document.createElement("div")
+    msg.id = `error-${id}`
+    msg.innerHTML = `<p>Something happened at ${getLocaleDateStr()}!</p><code>${message}</code>`
+    document.getElementById("messages").style.display = "block"
+    document.getElementById("messages").prepend(msg)
     setTimeout(() => {
-        const elem = document.getElementById(`error-${id}`);
-        if (elem) { elem.remove(); }
-    }, 7000);
-};
+        const elem = document.getElementById(`error-${id}`)
+        if (elem) { elem.remove() }
+    }, 7000)
+}
 
-// Initialize everything when page loads
 const setup = () => {
-    getStats();
-    getConsistencyChecks();
+    getStats()
+    setInterval(() => getStats(), 4000) // Update every 4 seconds
+}
 
-    setInterval(getStats, 4000);  // Update stats every 4 seconds
-    setInterval(getConsistencyChecks, 6000); // Update consistency checks every 6 seconds
-};
+document.addEventListener('DOMContentLoaded', setup)
 
-document.addEventListener('DOMContentLoaded', setup);
