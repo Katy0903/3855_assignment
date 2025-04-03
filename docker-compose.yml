@@ -135,22 +135,24 @@ services:
     networks:
       - mynetwork
 
-  check:
+  consistency_check:
     build:
-      context: ./check
+      context: ./consistency_check
       dockerfile: Dockerfile
     environment:
       CORS_ALLOW_ALL: "no"
     # ports:
     #   - "8111:8111" 
     volumes:
-      - ./config/test/check:/app/config
+      - ./config/test/consistency_check:/app/config
       - ./logs:/app/logs
-      - ./data/check:/app/data 
+      - ./data/consistency_check:/app/data 
     networks:
       - mynetwork
     depends_on:
       - storage  
+      - analyzer
+      - processing
 
 
   nginx:

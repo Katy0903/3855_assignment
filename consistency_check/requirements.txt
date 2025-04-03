@@ -6,3 +6,4 @@ mysqlclient
 httpx
 apscheduler
 pytz
+pyyaml

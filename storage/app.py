@@ -216,11 +216,7 @@ def get_event_counts():
         # Count for Survey
         survey_count = session.query(Survey).count()
 
-        # Return counts in JSON format
-        return jsonify({
-            "count_clientcase": client_case_count,
-            "count_survey": survey_count
-        })
+        return {"count_clientcase": client_case_count, "count_survey": survey_count}, 200
 
     except Exception as e:
         logger.error(f"Error retrieving counts: {e}")
@@ -228,20 +224,26 @@ def get_event_counts():
     finally:
         session.close()
 
-def get_event_ids_and_trace_ids():
+
+def get_clientcase_ids():
     session = make_session()
     try:
-        # Retrieve ClientCase IDs and Trace IDs
-        client_cases = session.query(ClientCase.event_id, ClientCase.trace_id).all()
+        results = session.query(ClientCase.case_id, ClientCase.trace_id).all()
+        events = [{"event_id": r[0], "trace_id": r[1]} for r in results]
+        return events, 200
 
-        # Retrieve Survey IDs and Trace IDs
-        surveys = session.query(Survey.survey_id, Survey.trace_id).all()
+    except Exception as e:
+        logger.error(f"Error retrieving event IDs and trace IDs: {e}")
+        return jsonify({"error": "Error retrieving event IDs and trace IDs"}), 500
+    finally:
+        session.close()
 
-        # Combine both lists
-        all_events = [{"event_id": case.event_id, "trace_id": case.trace_id, "type": "clientcase"} for case in client_cases]
-        all_events += [{"event_id": survey.survey_id, "trace_id": survey.trace_id, "type": "survey"} for survey in surveys]
-
-        return jsonify(all_events)
+def get_survey_ids():
+    session = make_session()
+    try:
+        results = session.query(Survey.survey_id, Survey.trace_id).all()
+        events = [{"event_id": r[0], "trace_id": r[1]} for r in results]
+        return events, 200
 
     except Exception as e:
         logger.error(f"Error retrieving event IDs and trace IDs: {e}")

@@ -1,0 +1,11 @@
+version: 1
+datastore:
+  filename: data.json
+scheduler:
+  interval: 5
+processing:
+  url: http://processing:8100/processing/ccc
+analyzer:
+  url: http://analyzer:8110/analyzer/ccc
+storage:
+  url: http://storage:8090/storage/ccc

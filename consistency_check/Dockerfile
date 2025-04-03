@@ -10,6 +10,8 @@ COPY ./requirements.txt /app/requirements.txt
 WORKDIR /app
 # Install dependencies
 RUN pip3 install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
 # Copy the source code
 COPY . /app
 # Change permissions and become a non-privileged user

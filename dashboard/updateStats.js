@@ -7,9 +7,8 @@ const ANALYZER_API_URL = {
     survey: "http://acit3855lab9.eastus.cloudapp.azure.com/analyzer/ccc/survey?index=1"
 }
 
-const CONSISTENCY_CHECKS_API_URL = "http://acit3855lab9.eastus.cloudapp.azure.com/check/ccc/checks";
-
-
+const CONSISTENCY_UPDATE_URL = "http://acit3855lab9.eastus.cloudapp.azure.com/consistency_check/ccc/update";
+const CONSISTENCY_CHECKS_URL = "http://acit3855lab9.eastus.cloudapp.azure.com/consistency_check/ccc/checks";
 
 // This function fetches and updates the general statistics
 const makeReq = (url, cb) => {
@@ -57,3 +56,30 @@ const setup = () => {
 
 document.addEventListener('DOMContentLoaded', setup)
 
+function runConsistencyCheck() {
+    const start = performance.now();
+
+    fetch(CONSISTENCY_UPDATE_URL, {
+        method: "POST"
+    })
+    .then(res => {
+        if (!res.ok) {
+            throw new Error(`HTTP error ${res.status}`);
+        }
+        return res.json();
+    })
+    .then(data => {
+        console.log("Consistency update triggered:", data);
+        fetch(CONSISTENCY_CHECKS_URL)
+            .then(res => {
+                if (!res.ok) throw new Error("No check results available yet.");
+                return res.json();
+            })
+            .then(result => {
+                document.getElementById("consistency-results").innerText = JSON.stringify(result, null, 2);
+            })
+    })
+    .catch(err => {
+        updateErrorMessages(err.message);
+    });
+}

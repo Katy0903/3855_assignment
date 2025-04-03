@@ -66,7 +66,7 @@ def get_survey_event(index):
 
 
 
-def get_stats():
+def get_event_stats():
     consumer = topic.get_simple_consumer(reset_offset_on_start=True, consumer_timeout_ms=1000)
 
     clientcase_count = 0
@@ -93,34 +93,57 @@ def get_stats():
     logger.info(f"Returning event stats: {stats}")
     return jsonify(stats), 200
 
-def get_event_ids_and_trace_ids(event_type):
+def get_all_clientcase_ids():
     consumer = topic.get_simple_consumer(reset_offset_on_start=True, consumer_timeout_ms=1000)
     
-    event_list = []
+    results = []
     
     for msg in consumer:
-        message = msg.value.decode("utf-8")
-        data = json.loads(message)
-        
-        if data["type"] == event_type:
-            event_info = {
-                "event_id": data["payload"]["event_id"],
-                "trace_id": data["payload"]["trace_id"]
-            }
-            event_list.append(event_info)
+
+        if msg is None:
+            break
+        try:
+            message = msg.value.decode("utf-8")
+            data = json.loads(message)
+            
+            if data["type"] == "clientcase":
+                payload = data["payload"]
+                results.append({
+                    "event_id": payload.get("case_id"),  
+                    "trace_id": payload.get("trace_id")
+                })
     
-    if event_list:
-        return jsonify(event_list), 200
-    else:
-        return {"message": f"No {event_type} events found!"}, 404
+        except Exception as e:
+            logger.warning("Skipping message: %s", str(e))
+            continue
 
+    return results, 200
 
-def get_clientcase_event_ids():
-    return get_event_ids_and_trace_ids("clientcase")
+def get_all_survey_ids():
+    consumer = topic.get_simple_consumer(reset_offset_on_start=True, consumer_timeout_ms=1000)
+    
+    results = []
+    
+    for msg in consumer:
 
-# Endpoint for survey event IDs and trace IDs
-def get_survey_event_ids():
-    return get_event_ids_and_trace_ids("survey")
+        if msg is None:
+            break
+        try:
+            message = msg.value.decode("utf-8")
+            data = json.loads(message)
+            
+            if data["type"] == "survey":
+                payload = data["payload"]
+                results.append({
+                    "event_id": payload.get("survey_id"),  
+                    "trace_id": payload.get("trace_id")
+                })
+    
+        except Exception as e:
+            logger.warning("Skipping message: %s", str(e))
+            continue
+
+    return results, 200
 
 
 # app = connexion.FlaskApp(__name__, specification_dir='')
@@ -138,10 +161,6 @@ if "CORS_ALLOW_ALL" in os.environ and os.environ["CORS_ALLOW_ALL"] == "yes":
     )    
 
 app.add_api("openapi.yml", base_path="/analyzer", strict_validation=True, validate_responses=True)
-
-# app.app.add_url_rule('/ccc/clientcase_ids', 'get_clientcase_event_ids', get_clientcase_event_ids, methods=['GET'])
-# app.app.add_url_rule('/ccc/survey_ids', 'get_survey_event_ids', get_survey_event_ids, methods=['GET'])
-
 
 
 if __name__ == "__main__":

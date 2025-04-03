@@ -4,7 +4,7 @@ info:
   version: "1.0.0"
   title: Consistency API
   contact:
-    email: student@bcit.ca
+    email: cchan532@my.bcit.ca
 
 paths:
   /ccc/update:
@@ -24,6 +24,7 @@ paths:
                     type: integer
   /ccc/checks:
     get:
+   get:
       summary: Displays the results of the checks
       operationId: app.get_checks
       description: Gets the results of the consistency checks from JSON and returns them
@@ -43,6 +44,7 @@ paths:
                 properties:
                   message:
                     type: string
+
 components:
   schemas:
     Checks:
@@ -98,4 +100,3 @@ components:
                 type: integer
               trace_id:
                 type: integer
-
