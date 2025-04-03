@@ -24,7 +24,6 @@ paths:
                     type: integer
   /ccc/checks:
     get:
-   get:
       summary: Displays the results of the checks
       operationId: app.get_checks
       description: Gets the results of the consistency checks from JSON and returns them
