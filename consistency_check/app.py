@@ -81,8 +81,12 @@ def run_consistency_checks():
         {"trace_id": t[0], "event_id": t[1], "type": t[2]} for t in storage_set - analyzer_set
     ]
 
+    vancouver = pytz.timezone("America/Vancouver")
+    vancouver_time = datetime.now(pytz.utc).astimezone(vancouver)
+
+
     output = {
-        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "last_updated": vancouver_time.strftime("Last update: %Y-%m-%d %H:%M:%S"),
         "counts": {
             "processing": processing_stats,
             "queue": analyzer_stats,
