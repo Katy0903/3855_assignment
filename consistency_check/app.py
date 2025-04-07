@@ -41,7 +41,12 @@ DATA_FILE = app_config['datastore']['filename']
 def run_consistency_checks():
     start_time = time.time()
 
-    processing_stats = httpx.get(f'{app_config["processing"]["url"]}/stats').json()
+    raw_processing_stats = httpx.get(f'{app_config["processing"]["url"]}/stats').json()
+
+    processing_stats = {
+        "count_clientcase": raw_processing_stats.get("num_client_case_readings", 0),
+        "count_survey": raw_processing_stats.get("num_survey_readings", 0)
+    }
 
     analyzer_stats = httpx.get(f'{app_config["analyzer"]["url"]}/stats').json()
     storage_counts = httpx.get(f'{app_config["storage"]["url"]}/stats').json()
