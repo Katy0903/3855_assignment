@@ -111,12 +111,36 @@ def run_consistency_checks():
         f"Consistency checks completed | processing_time_ms={duration_ms} | "
         f"missing_in_db={len(missing_in_db)} | missing_in_queue={len(missing_in_queue)}"
     )
-    
+
     return {"processing_time_ms": duration_ms}, 200
 
 
 def get_checks():
     if not os.path.exists(DATA_FILE):
+
+        default_content = {
+            "counts": {
+                "db": {
+                    "count_clientcase": 0,
+                    "count_survey": 0
+                },
+                "processing": {
+                    "count_clientcase": 0,
+                    "count_survey": 0
+                },
+                "queue": {
+                    "num_clientcase_events": 0,
+                    "num_survey_events": 0
+                }
+            },
+            "last_updated": "Last update: 2025-04-08 11:47:37",
+            "missing_in_db": [],
+            "missing_in_queue": []
+        }
+        # Create the file and write the default content
+        with open(DATA_FILE, "w") as f:
+            json.dump(default_content, f, indent=4)
+            
         return {"message": "No consistency check has been run."}, 404
 
     with open(DATA_FILE, "r") as f:
