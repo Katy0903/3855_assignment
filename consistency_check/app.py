@@ -106,6 +106,12 @@ def run_consistency_checks():
             json.dump(default_stats, file, indent=4)
 
     duration_ms = int((time.time() - start_time) * 1000)
+
+    logger.info(
+        f"Consistency checks completed | processing_time_ms={duration_ms} | "
+        f"missing_in_db={len(missing_in_db)} | missing_in_queue={len(missing_in_queue)}"
+    )
+    
     return {"processing_time_ms": duration_ms}, 200
 
 
