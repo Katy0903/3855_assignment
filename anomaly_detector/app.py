@@ -121,7 +121,7 @@ def get_anomalies(event_type=None):
     with open(DATA_FILE, "r") as f:
         data = json.load(f)
 
-    if event_type is not "clientcase" and event_type is not "survey":
+    if event_type != "clientcase" and event_type != "survey":
         return {"message": "No check has been run."}, 404
 
     elif event_type == None:
