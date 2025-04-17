@@ -154,7 +154,25 @@ services:
       - analyzer
       - processing
 
-
+  consistency_check:
+    build:
+      context: ./anomaly_detector
+      dockerfile: Dockerfile
+    environment:
+      CORS_ALLOW_ALL: "no"
+    # ports:
+    #   - "8200:8200" 
+    volumes:
+      - ./config/test/anomaly_detector:/app/config
+      - ./logs:/app/logs
+      - ./data/anomaly_detector:/app/data 
+    networks:
+      - mynetwork
+    depends_on:
+      - storage  
+      - analyzer
+      - processing
+      
   nginx:
     build:
       context: ./dashboard

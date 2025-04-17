@@ -1,0 +1,9 @@
+setuptools
+connexion[flask,uvicorn,swagger-ui]
+pykafka
+sqlalchemy
+mysqlclient
+httpx
+apscheduler
+pytz
+pyyaml

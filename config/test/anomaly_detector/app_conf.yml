@@ -1,0 +1,22 @@
+version: 1
+datastore:
+  filename: ./data/data.json
+scheduler:
+  interval: 5
+processing:
+  url: http://processing:8100/processing/ccc
+analyzer:
+  url: http://analyzer:8110/analyzer/ccc
+storage:
+  url: http://storage:8090/storage/ccc
+
+
+eventstores:
+  clientcase:
+    url: http://storage:8090/storage/ccc/clientcase
+  survey:
+    url: http://storage:8090/storage/ccc/survey
+events:
+  hostname: kafka
+  port: 29092
+  topic: events

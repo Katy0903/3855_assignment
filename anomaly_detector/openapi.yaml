@@ -1,0 +1,94 @@
+openapi: 3.0.0
+info:
+  description: This API provides event anomalies
+  version: "1.0.0"
+  title: Anomaly API
+  contact:
+    email: cchan532@my.bcit.ca # CHANGE THIS
+
+paths:
+  /ccc/update:
+    put:
+      summary: Update the anomalies datastore
+      operationId: app.run_anomaly_checks
+      description: Updates the anomalies datastore from the Kafka queue
+      responses:
+        '201':
+          description: Successfully updated the anomalies datastore
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  anomalies_count:
+                    type: integer
+                    example: 1000
+  /ccc/anomalies:
+    get:
+      summary: Gets the anomalies
+      operationId: app.get_anomalies
+      description: Gets the list of event anomalies
+      parameters:
+        - name: event_type
+          in: query
+          description: Filter by event type (clientcase, survey) - shows all anomalies if not provided
+          schema:
+            type: string
+            example: clientcase # CHANGE THIS
+      responses:
+        '200':
+          description: Successfully returned a non-empty list of anomalies of the given event type
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Anomaly'
+        '204':
+          description: No anomalies found for the given event type
+        '400':
+          description: Invalid Event Type, must be clientcase or survey # CHANGE THIS
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: The anomalies datastore is missing or corrupted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+
+components:
+  schemas:
+    Anomaly:
+      required:
+      - event_id
+      - trace_id
+      - event_type
+      - anomaly_type
+      - description
+      properties:
+        event_id:
+          type: string
+          example: A1234
+        trace_id:
+          type: string
+          example: A12345
+        event_type:
+          type: string
+          example: EVENT1
+        anomaly_type:
+          type: string
+          example: Too High
+        description:
+          type: string
+          example: "Detected: 150; too high (threshold 140)"
+      type: object
+
