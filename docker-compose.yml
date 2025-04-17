@@ -135,24 +135,24 @@ services:
     networks:
       - mynetwork
 
-  # consistency_check:
-  #   build:
-  #     context: ./consistency_check
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     CORS_ALLOW_ALL: "no"
-  #   # ports:
-  #   #   - "8111:8111" 
-  #   volumes:
-  #     - ./config/test/consistency_check:/app/config
-  #     - ./logs:/app/logs
-  #     - ./data/consistency_check:/app/data 
-  #   networks:
-  #     - mynetwork
-  #   depends_on:
-  #     - storage  
-  #     - analyzer
-  #     - processing
+  consistency_check:
+    build:
+      context: ./consistency_check
+      dockerfile: Dockerfile
+    environment:
+      CORS_ALLOW_ALL: "no"
+    # ports:
+    #   - "8111:8111" 
+    volumes:
+      - ./config/test/consistency_check:/app/config
+      - ./logs:/app/logs
+      - ./data/consistency_check:/app/data 
+    networks:
+      - mynetwork
+    depends_on:
+      - storage  
+      - analyzer
+      - processing
 
   anomaly_detector:
     build:

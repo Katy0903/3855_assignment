@@ -21,7 +21,7 @@ RUN useradd -m katy
 RUN chown -R katy:katy /app
 USER katy
 # Tells on which port the service listens in the container
-EXPOSE 8111
+EXPOSE 8200
 # Entrypoint = run Python
 ENTRYPOINT [ "python3" ]
 # Default = run app.py

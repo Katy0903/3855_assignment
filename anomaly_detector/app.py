@@ -154,8 +154,8 @@ if "CORS_ALLOW_ALL" in os.environ and os.environ["CORS_ALLOW_ALL"] == "yes":
         allow_headers=["*"],
     )    
 
-app.add_api("openapi.yml", base_path="/consistency_check", strict_validation=True, validate_responses=True)
+app.add_api("openapi.yml", base_path="/anomaly_detector", strict_validation=True, validate_responses=True)
 
 
 if __name__ == "__main__":
-    app.run(port=8111, host="0.0.0.0")
+    app.run(port=8200, host="0.0.0.0")
