@@ -76,7 +76,7 @@ services:
     networks:
       - mynetwork
     deploy:
-      replicas: 3
+      replicas: 1
 
   storage:
     build:
