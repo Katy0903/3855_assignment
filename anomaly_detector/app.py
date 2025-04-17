@@ -44,7 +44,7 @@ DATA_FILE = app_config['datastore']['filename']
 client = KafkaClient(hosts=kafka_url)
 topic = client.topics[str.encode(kafka_topic)]
 
-Max_conversation_time_in_min = 100
+Max_conversation_time_in_min = 15
 Min_satisfaction = 3
 
 def run_anomaly_checks(event_type, index):
