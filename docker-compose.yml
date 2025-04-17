@@ -154,7 +154,7 @@ services:
       - analyzer
       - processing
 
-  consistency_check:
+  anomaly_detector:
     build:
       context: ./anomaly_detector
       dockerfile: Dockerfile
@@ -172,7 +172,7 @@ services:
       - storage  
       - analyzer
       - processing
-      
+
   nginx:
     build:
       context: ./dashboard
